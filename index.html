@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080a10">
+<title>79 Records | Beat Marketplace</title>
+<style>
+:root{--bg:#080a10;--panel:#111520;--border:#262d3d;--blue:#388bff;--yellow:#ffd84d;--muted:#9ba6bb}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:#f5f7ff;font-family:Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{padding:18px 7%;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:#0c0f17;border-bottom:1px solid var(--border)}
+.logo{font-size:24px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--blue)}
+nav{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+nav a{font-size:14px;color:#c2cad9}
+.button{display:inline-block;padding:12px 17px;border-radius:8px;font-weight:bold;border:0}
+.primary{background:var(--blue);color:white}
+.secondary{background:transparent;color:white;border:1px solid #394154}
+.hero{padding:80px 7% 55px;background:radial-gradient(ellipse at 80% 20%,#172e56,transparent 45%),radial-gradient(ellipse at 10% 90%,#191c38,transparent 40%),var(--bg)}
+.tag{display:inline-block;color:#9fc7ff;background:#142542;border:1px solid #29456e;padding:9px 13px;border-radius:30px;font-size:11px;letter-spacing:1px;margin-bottom:25px}
+.hero h1{font-size:clamp(42px,7vw,78px);line-height:1.07;letter-spacing:-3px}
+.blue{color:var(--blue)}
+.hero p{color:var(--muted);line-height:1.8;max-width:530px;margin-top:20px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+.stats{display:flex;gap:40px;flex-wrap:wrap;margin-top:50px;border-top:1px solid var(--border);padding-top:25px}
+.stats strong{display:block;font-size:21px}
+.stats small{display:block;color:var(--muted);margin-top:7px}
+main{padding:50px 7%}
+.search-panel{padding:20px;background:var(--panel);border:1px solid var(--border);border-radius:13px;margin-bottom:35px}
+label{font-size:12px;color:var(--muted);display:block;margin-bottom:9px}
+.search-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px}
+input,select{width:100%;min-width:0;background:#0a0d14;color:white;border:1px solid #30384b;border-radius:8px;padding:13px;outline:none}
+input:focus,select:focus{border-color:var(--blue)}
+.search-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-top:15px}
+.result-count,.muted{color:var(--muted);font-size:13px;line-height:1.7}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px;flex-wrap:wrap}
+.section-heading h2{font-size:27px}
+.section-heading p{color:var(--muted);font-size:13px;margin-top:7px}
+.beats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.beat-card{background:var(--panel);border:1px solid var(--border);border-radius:13px;overflow:hidden;transition:.2s}
+.beat-card:hover{transform:translateY(-4px);border-color:var(--blue)}
+.cover{height:180px;display:flex;align-items:center;justify-content:center;position:relative}
+.cover:after{content:"";position:absolute;width:160px;height:160px;border:1px solid #ffffff25;border-radius:50%;box-shadow:0 0 0 22px #ffffff08,0 0 0 44px #ffffff05}
+.one{background:linear-gradient(135deg,#174c83,#101522)}
+.two{background:linear-gradient(135deg,#75431c,#17121c)}
+.three{background:linear-gradient(135deg,#58347f,#111522)}
+.four{background:linear-gradient(135deg,#165b57,#101522)}
+.five{background:linear-gradient(135deg,#71314c,#101522)}
+.six{background:linear-gradient(135deg,#3b426e,#101522)}
+.art-symbol{font-size:52px;z-index:1}
+.genre-label{position:absolute;top:13px;left:13px;background:#080a10cc;padding:7px 9px;border-radius:5px;font-size:10px;z-index:2}
+.play{position:absolute;right:13px;bottom:13px;width:40px;height:40px;border:1px solid #ffffff40;background:#080a10cc;color:white;border-radius:50%;z-index:3}
+.beat-info{padding:17px}
+.beat-info h3{font-size:17px;margin-bottom:7px}
+.producer{font-size:13px;color:var(--muted)}
+.details{display:flex;gap:13px;flex-wrap:wrap;color:#b0bbce;font-size:12px;margin-top:15px}
+.beat-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--border);padding-top:15px;margin-top:17px}
+.price{font-size:20px;font-weight:bold;color:var(--yellow)}
+.buy{background:#202b40;border:1px solid #354765;color:white;padding:9px 12px;border-radius:7px;font-size:12px}
+.empty{display:none;text-align:center;padding:40px;color:var(--muted);border:1px dashed #30384b;border-radius:12px}
+.sell-banner{margin-top:55px;background:linear-gradient(110deg,#142c50,#101522);border:1px solid #29466f;border-radius:15px;padding:30px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.sell-banner h2{font-size:25px;margin-bottom:10px}
+.sell-banner p{color:#b3c0d5;line-height:1.7}
+.account-wrap{max-width:520px;margin:0 auto;padding:28px;background:var(--panel);border:1px solid var(--border);border-radius:14px}
+.account-wrap h2{font-size:27px;margin-bottom:10px}
+.account-wrap form{margin-top:22px}
+.field{margin-bottom:17px}
+.field input,.field select{margin-top:0}
+.field input[type=file]{padding:10px;background:#0a0d14}
+.upload-wrap{max-width:760px;margin:55px auto 0;padding:28px;background:var(--panel);border:1px solid var(--border);border-radius:14px}
+.upload-wrap h2{font-size:27px;margin-bottom:10px}
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.upload-wrap form{margin-top:22px}
+@media(max-width:560px){.upload-grid{grid-template-columns:1fr}}
+.full{width:100%}
+#accountMessage{margin-top:16px;font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.error{color:#ff8585}
+.success{color:#81e6b2}
+.notice{font-size:12px;color:#8e9bb1;line-height:1.7;margin-top:17px}
+footer{border-top:1px solid var(--border);padding:26px 7%;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#858fa3;font-size:12px}
+[hidden]{display:none!important}
+@media(max-width:850px){.search-grid{grid-template-columns:1fr 1fr}.beats{grid-template-columns:repeat(2,minmax(0,1fr))}header,main,footer{padding-left:5%;padding-right:5%}.hero{padding:60px 5% 45px}}
+@media(max-width:560px){.beats,.search-grid{grid-template-columns:1fr}.hero h1{letter-spacing:-2px}.stats{gap:24px}nav{gap:12px}.cover{height:200px}.account-wrap{padding:21px}}
+</style>
+</head>
+<body>
+<header>
+<a class="logo" href="#">79<span>RECORDS</span></a>
+<nav><a href="#beats">Explore Beats</a><a href="#sell">Sell Beats</a><a href="#account">Account</a><a href="#about">About</a></nav>
+</header>
+
+<section class="hero">
+<div class="tag">BUILT FOR INDEPENDENT MUSIC</div>
+<h1>Find your sound.<br><span class="blue">Create your next hit.</span></h1>
+<p>Discover beats, explore new sounds, and connect with independent producers. Your next record starts here.</p>
+<div class="actions"><a class="button primary" href="#beats">Explore Beats →</a><a class="button secondary" href="#account">Create Account ↗</a></div>
+<div class="stats"><div><strong>Discover</strong><small>New sounds</small></div><div><strong>Compare</strong><small>BPM, key and genre</small></div><div><strong>Create</strong><small>Your next record</small></div></div>
+</section>
+
+<main>
+<section id="beats">
+<div class="search-panel">
+<div class="search-grid">
+<div><label for="search">SEARCH BEATS</label><input id="search" type="search" placeholder="Beat name or producer..."></div>
+<div><label for="genre">GENRE</label><select id="genre"><option value="">All genres</option><option>Trap</option><option>Drill</option><option>Melodic</option><option>R&amp;B</option><option>Boom Bap</option></select></div>
+<div><label for="key">MUSICAL KEY</label><select id="key"><option value="">All keys</option><option>C Minor</option><option>D Minor</option><option>F Minor</option><option>A Minor</option><option>C Major</option></select></div>
+<div><label for="bpm">BPM RANGE</label><select id="bpm"><option value="">All BPM</option><option value="0-99">Under 100</option><option value="100-119">100–119</option><option value="120-139">120–139</option><option value="140-999">140+</option></select></div>
+</div>
+<div class="search-actions"><span class="result-count" id="count"></span><button class="button secondary" id="reset" type="button">Reset filters</button></div>
+</div>
+
+<div class="section-heading"><div><h2>Explore Beats <span class="blue">.</span></h2><p>Published beats from independent producers.</p></div>
+<select id="sort" aria-label="Sort beats" style="width:auto"><option value="featured">Featured</option><option value="low">Price: Low to high</option><option value="high">Price: High to low</option><option value="bpm">BPM: Low to high</option></select></div>
+
+<div class="beats" id="beatList">
+<article class="beat-card" data-name="Midnight Run" data-producer="Producer One" data-genre="Trap" data-key="F Minor" data-bpm="140" data-price="499" data-order="1"><div class="cover one"><span class="genre-label">TRAP</span><span class="art-symbol">〽</span><button class="play" type="button" data-preview>▶</button></div><div class="beat-info"><h3>Midnight Run</h3><div class="producer">by Producer One</div><div class="details"><span>♫ 140 BPM</span><span>F Minor</span></div><div class="beat-bottom"><span class="price">₹499</span><button class="buy" type="button" data-demo>View Beat ↗</button></div></div></article>
+<article class="beat-card" data-name="Cold Streets" data-producer="Producer Two" data-genre="Drill" data-key="D Minor" data-bpm="145" data-price="699" data-order="2"><div class="cover two"><span class="genre-label">DRILL</span><span class="art-symbol">✳</span><button class="play" type="button" data-preview>▶</button></div><div class="beat-info"><h3>Cold Streets</h3><div class="producer">by Producer Two</div><div class="details"><span>♫ 145 BPM</span><span>D Minor</span></div><div class="beat-bottom"><span class="price">₹699</span><button class="buy" type="button" data-demo>View Beat ↗</button></div></div></article>
+<article class="beat-card" data-name="After Hours" data-producer="Producer Three" data-genre="Melodic" data-key="C Minor" data-bpm="95" data-price="399" data-order="3"><div class="cover three"><span class="genre-label">MELODIC</span><span class="art-symbol">✦</span><button class="play" type="button" data-preview>▶</button></div><div class="beat-info"><h3>After Hours</h3><div class="producer">by Producer Three</div><div class="details"><span>♫ 95 BPM</span><span>C Minor</span></div><div class="beat-bottom"><span class="price">₹399</span><button class="buy" type="button" data-demo>View Beat ↗</button></div></div></article>
+<article class="beat-card" data-name="Blue Dreams" data-producer="Producer Four" data-genre="R&amp;B" data-key="A Minor" data-bpm="88" data-price="349" data-order="4"><div class="cover four"><span class="genre-label">R&amp;B</span><span class="art-symbol">◉</span><button class="play" type="button" data-preview>▶</button></div><div class="beat-info"><h3>Blue Dreams</h3><div class="producer">by Producer Four</div><div class="details"><span>♫ 88 BPM</span><span>A Minor</span></div><div class="beat-bottom"><span class="price">₹349</span><button class="buy" type="button" data-demo>View Beat ↗</button></div></div></article>
+<article class="beat-card" data-name="No Turning Back" data-producer="Producer Five" data-genre="Boom Bap" data-key="C Major" data-bpm="92" data-price="299" data-order="5"><div class="cover five"><span class="genre-label">BOOM BAP</span><span class="art-symbol">✳</span><button class="play" type="button" data-preview>▶</button></div><div class="beat-info"><h3>No Turning Back</h3><div class="producer">by Producer Five</div><div class="details"><span>♫ 92 BPM</span><span>C Major</span></div><div class="beat-bottom"><span class="price">₹299</span><button class="buy" type="button" data-demo>View Beat ↗</button></div></div></article>
+<article class="beat-card" data-name="Night Drive" data-producer="Producer Six" data-genre="Trap" data-key="F Minor" data-bpm="130" data-price="549" data-order="6"><div class="cover six"><span class="genre-label">TRAP</span><span class="art-symbol">✧</span><button class="play" type="button" data-preview>▶</button></div><div class="beat-info"><h3>Night Drive</h3><div class="producer">by Producer Six</div><div class="details"><span>♫ 130 BPM</span><span>F Minor</span></div><div class="beat-bottom"><span class="price">₹549</span><button class="buy" type="button" data-demo>View Beat ↗</button></div></div></article>
+</div>
+<div class="empty" id="empty">No matching beats. Try changing your filters.</div>
+<p class="notice" id="catalogueNotice">Loading published beats from Supabase… Upload tools and checkout are not connected yet.</p>
+</section>
+
+<section class="upload-wrap" id="upload" hidden>
+<h2>Upload a beat <span class="blue">.</span></h2>
+<p class="muted">Publish a listing to the catalogue. Your full beat file stays in private storage; only the preview and cover image use the public preview bucket.</p>
+<form id="beatUploadForm">
+  <div class="upload-grid">
+    <div class="field"><label for="beatTitle">BEAT TITLE *</label><input id="beatTitle" required maxlength="100" placeholder="e.g. Midnight Run"></div>
+    <div class="field"><label for="producerName">PRODUCER NAME</label><input id="producerName" maxlength="100" placeholder="Your producer name"></div>
+    <div class="field"><label for="beatBpm">BPM *</label><input id="beatBpm" type="number" required min="1" max="300" placeholder="e.g. 140"></div>
+    <div class="field"><label for="beatKey">MUSICAL KEY</label><select id="beatKey"><option value="">Choose key</option><option>C Major</option><option>C Minor</option><option>C# Major</option><option>C# Minor</option><option>D Major</option><option>D Minor</option><option>D# Major</option><option>D# Minor</option><option>E Major</option><option>E Minor</option><option>F Major</option><option>F Minor</option><option>F# Major</option><option>F# Minor</option><option>G Major</option><option>G Minor</option><option>G# Major</option><option>G# Minor</option><option>A Major</option><option>A Minor</option><option>A# Major</option><option>A# Minor</option><option>B Major</option><option>B Minor</option></select></div>
+    <div class="field"><label for="beatPrice">PRICE IN INR (₹) *</label><input id="beatPrice" type="number" required min="0" max="1000000" step="1" value="499"></div>
+    <div class="field"><label for="fullBeatFile">FULL BEAT FILE * (private)</label><input id="fullBeatFile" type="file" required accept="audio/*,.mp3,.wav,.flac,.aiff,.m4a"></div>
+    <div class="field"><label for="previewBeatFile">PREVIEW AUDIO (public)</label><input id="previewBeatFile" type="file" accept="audio/*,.mp3,.wav,.m4a"></div>
+    <div class="field"><label for="coverImageFile">COVER IMAGE (public)</label><input id="coverImageFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
+  </div>
+  <button class="button primary full" id="beatUploadSubmit" type="submit">Upload and publish beat</button>
+  <p id="uploadMessage" role="status" aria-live="polite" class="notice"></p>
+</form>
+<p class="notice">Prototype limits: full beat max 45 MB, preview max 12 MB, cover max 5 MB. Uploading publishes a listing, but paid checkout and buyer download authorization are not ready yet.</p>
+</section>
+
+<section class="sell-banner" id="sell"><div><h2>Make your beats count.</h2><p>Build your catalogue and reach artists looking for their next sound.</p></div><a class="button primary" href="#account">Create Your Account →</a></section>
+
+<section id="account" style="padding-top:55px">
+<div class="account-wrap">
+<h2>Your 79 Records account</h2><p class="muted" id="accountIntro">Create an account or log in to get started.</p>
+<form id="accountForm">
+<div class="field"><label for="accountMode">ACCOUNT ACTION</label><select id="accountMode"><option value="signup">Create account</option><option value="login">Log in</option></select></div>
+<div class="field"><label for="accountEmail">EMAIL ADDRESS</label><input id="accountEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+<div class="field"><label for="accountPassword">PASSWORD</label><input id="accountPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></div>
+<button class="button primary full" id="accountSubmit" type="submit">Create account</button>
+</form>
+<div id="signedIn" hidden><p class="muted" id="signedInText"></p><button class="button secondary full" id="logoutButton" type="button" style="margin-top:16px">Log out</button></div>
+<p id="accountMessage" role="status" aria-live="polite"></p>
+<p class="notice">Email confirmation may be required. Use an email address you control.</p>
+</div>
+</section>
+
+<section id="about" style="padding-top:45px"><h2>About 79 Records</h2><p class="muted" style="margin-top:12px;max-width:650px">A planned marketplace for independent producers and artists. Accounts are the first step. Seller uploads, secure file access, licensing, and payments require additional development before launch.</p></section>
+</main>
+
+<footer><a class="logo" href="#">79<span>RECORDS</span></a><span>Independent sounds. Endless possibilities.</span><span>© 2026 79 Records</span></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://oflzvdcxoelfzxkznhws.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_gB4DwMUOXgRfepHL6KC3Zw_XEOHZQ_h";
+
+let client = null;
+const form = document.getElementById("accountForm");
+const mode = document.getElementById("accountMode");
+const email = document.getElementById("accountEmail");
+const password = document.getElementById("accountPassword");
+const submit = document.getElementById("accountSubmit");
+const message = document.getElementById("accountMessage");
+const intro = document.getElementById("accountIntro");
+const signedIn = document.getElementById("signedIn");
+
+function say(text, type="") {
+  message.textContent = text;
+  message.className = type;
+}
+function updateUser(user) {
+  form.hidden = !!user;
+  document.getElementById("upload").hidden = !user;
+  signedIn.hidden = !user;
+  intro.textContent = user ? "You are signed in." : "Create an account or log in to get started.";
+  if (user) document.getElementById("signedInText").textContent = "Signed in as " + user.email;
+}
+
+mode.addEventListener("change", () => {
+  submit.textContent = mode.value === "signup" ? "Create account" : "Log in";
+  password.autocomplete = mode.value === "signup" ? "new-password" : "current-password";
+  say("");
+});
+
+if (!window.supabase) {
+  say("The Supabase library did not load. Check your internet connection and refresh.", "error");
+} else {
+  client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  client.auth.getSession().then(({data,error}) => {
+    if (error) say("Could not check login session. Refresh and try again.", "error");
+    else updateUser(data.session ? data.session.user : null);
+  });
+  client.auth.onAuthStateChange((_event,session) => {
+    updateUser(session ? session.user : null);
+  });
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!client) return say("Supabase is not available. Refresh and try again.", "error");
+
+  const userEmail = email.value.trim();
+  const userPassword = password.value;
+  const signup = mode.value === "signup";
+
+  if (signup && userPassword.length < 8) {
+    return say("Use a password with at least 8 characters.", "error");
+  }
+
+  submit.disabled = true;
+  submit.textContent = signup ? "Creating account..." : "Logging in...";
+  say("");
+
+  try {
+    const result = signup
+      ? await client.auth.signUp({email:userEmail,password:userPassword})
+      : await client.auth.signInWithPassword({email:userEmail,password:userPassword});
+
+    if (result.error) throw result.error;
+
+    if (signup && !result.data.session) {
+      say("Signup submitted. Check your email for a confirmation link if email confirmation is enabled. Then log in.", "success");
+      mode.value = "login";
+      password.autocomplete = "current-password";
+    } else if (result.data.user) {
+      updateUser(result.data.user);
+      say(signup ? "Account created successfully." : "You are logged in.", "success");
+      password.value = "";
+    }
+  } catch (error) {
+    say(error.message || "Authentication failed. Please try again.", "error");
+  } finally {
+    submit.disabled = false;
+    if (!form.hidden) submit.textContent = mode.value === "signup" ? "Create account" : "Log in";
+  }
+});
+
+document.getElementById("logoutButton").addEventListener("click", async () => {
+  if (!client) return;
+  const button = document.getElementById("logoutButton");
+  button.disabled = true;
+  try {
+    const {error} = await client.auth.signOut();
+    if (error) throw error;
+    updateUser(null);
+    password.value = "";
+    say("You have logged out.", "success");
+  } catch (error) {
+    say(error.message || "Logout failed.", "error");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+const search = document.getElementById("search");
+const genre = document.getElementById("genre");
+const key = document.getElementById("key");
+const bpm = document.getElementById("bpm");
+const sort = document.getElementById("sort");
+const list = document.getElementById("beatList");
+const count = document.getElementById("count");
+const empty = document.getElementById("empty");
+
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[ch]);
+}
+function coverMarkup(beat, index) {
+  const classes = ["one","two","three","four","five","six"];
+  const cover = beat.cover_url ? `style="background-image:linear-gradient(#080a1044,#080a1044),url('${escapeHTML(beat.cover_url)}');background-size:cover;background-position:center"` : "";
+  return `<div class="cover ${classes[index % classes.length]}" ${cover}>
+    <span class="genre-label">BEAT</span>
+    ${beat.cover_url ? "" : '<span class="art-symbol">♫</span>'}
+    ${beat.preview_url ? `<button class="play" type="button" data-audio="${escapeHTML(beat.preview_url)}" aria-label="Preview ${escapeHTML(beat.title)}">▶</button>` : ""}
+  </div>`;
+}
+function renderRealBeats(beats) {
+  list.innerHTML = "";
+  beats.forEach((beat, index) => {
+    const title = escapeHTML(beat.title);
+    const producer = escapeHTML(beat.artist_name || "Independent Producer");
+    const musicalKey = escapeHTML(beat.musical_key || "Key not set");
+    const tempo = Number(beat.bpm) || 0;
+    const price = Number(beat.price_inr) || 0;
+    const card = document.createElement("article");
+    card.className = "beat-card";
+    card.dataset.name = beat.title || "";
+    card.dataset.producer = beat.artist_name || "Independent Producer";
+    card.dataset.genre = "";
+    card.dataset.key = beat.musical_key || "";
+    card.dataset.bpm = String(tempo);
+    card.dataset.price = String(price);
+    card.dataset.order = String(index + 1);
+    card.innerHTML = `${coverMarkup(beat,index)}
+      <div class="beat-info"><h3>${title}</h3>
+      <div class="producer">by ${producer}</div>
+      <div class="details"><span>♫ ${tempo ? `${tempo} BPM` : "BPM not set"}</span><span>${musicalKey}</span></div>
+      <div class="beat-bottom"><span class="price">₹${price.toLocaleString("en-IN")}</span><button class="buy" type="button" data-real-view>View Beat ↗</button></div></div>`;
+    const viewButton = card.querySelector("[data-real-view]");
+    viewButton.addEventListener("click", () => {
+      alert(`${beat.title}\\nProducer: ${beat.artist_name || "Independent Producer"}\\nPrice: ₹${price}\\n\\nLicensing and secure checkout are not connected yet.`);
+    });
+    const audioButton = card.querySelector("[data-audio]");
+    if (audioButton) audioButton.addEventListener("click", () => {
+      const audio = new Audio(beat.audio_url);
+      audio.play().catch(() => alert("Preview could not play. Check that the audio URL is publicly playable."));
+      audioButton.textContent = "▶";
+    });
+    list.appendChild(card);
+  });
+}
+async function loadPublishedBeats() {
+  const note = document.getElementById("catalogueNotice");
+  if (!client) {
+    note.textContent = "Could not connect to Supabase. Refresh and check your internet connection.";
+    return;
+  }
+  const { data, error } = await client
+    .from("beats")
+    .select("id,title,artist_name,bpm,musical_key,price_inr,preview_url,cover_url,created_at")
+    .eq("status", "published")
+    .order("created_at", { ascending: false });
+  if (error) {
+    list.innerHTML = "";
+    note.textContent = "Could not load beats from Supabase: " + error.message;
+    filterBeats();
+    return;
+  }
+  if (!data || data.length === 0) {
+    note.textContent = "No published beats yet. Your catalogue will appear here after beats are uploaded and marked published.";
+    list.innerHTML = "";
+    filterBeats();
+    return;
+  }
+  renderRealBeats(data);
+  note.textContent = "Showing published beats from Supabase. Licensing, secure buyer downloads and checkout are still being built.";
+  // The current schema has no genre column, so genre filtering is hidden until genre is added.
+  genre.disabled = true;
+  genre.title = "Genre filtering will be enabled when the database includes a genre field.";
+  filterBeats();
+}
+
+const uploadForm = document.getElementById("beatUploadForm");
+const uploadMessage = document.getElementById("uploadMessage");
+const uploadButton = document.getElementById("beatUploadSubmit");
+function uploadSay(text, type="") {
+  uploadMessage.textContent = text;
+  uploadMessage.className = type ? type : "notice";
+}
+function safeFileName(name) {
+  return name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]+/g, "_").replace(/^\.+/, "").slice(-100) || "file";
+}
+async function uploadStorageFile(bucket, userId, file) {
+  const path = `${userId}/${Date.now()}_${crypto.randomUUID()}_${safeFileName(file.name)}`;
+  const { error } = await client.storage.from(bucket).upload(path, file, {
+    cacheControl: "3600", upsert: false, contentType: file.type || "application/octet-stream"
+  });
+  if (error) throw error;
+  if (bucket === "beat-files") return path;
+  return client.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+}
+uploadForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!client) return uploadSay("Supabase is not connected. Refresh and try again.", "error");
+  const fullFile = document.getElementById("fullBeatFile").files[0];
+  const previewFile = document.getElementById("previewBeatFile").files[0];
+  const coverFile = document.getElementById("coverImageFile").files[0];
+  const maxFull = 45 * 1024 * 1024, maxPreview = 12 * 1024 * 1024, maxCover = 5 * 1024 * 1024;
+  if (!fullFile) return uploadSay("Choose the full beat file first.", "error");
+  if (fullFile.size > maxFull) return uploadSay("The full beat file must be 45 MB or smaller.", "error");
+  if (previewFile && previewFile.size > maxPreview) return uploadSay("The preview must be 12 MB or smaller.", "error");
+  if (coverFile && coverFile.size > maxCover) return uploadSay("The cover image must be 5 MB or smaller.", "error");
+  if (previewFile && !previewFile.type.startsWith("audio/")) return uploadSay("The preview file must be audio.", "error");
+  if (coverFile && !coverFile.type.startsWith("image/")) return uploadSay("The cover file must be an image.", "error");
+  uploadButton.disabled = true;
+  uploadButton.textContent = "Uploading…";
+  uploadSay("Checking your account…");
+  let fullPath = null;
+  try {
+    const { data: userData, error: userError } = await client.auth.getUser();
+    if (userError) throw userError;
+    const user = userData.user;
+    if (!user) throw new Error("Please log in before uploading a beat.");
+    const title = document.getElementById("beatTitle").value.trim();
+    const artistName = document.getElementById("producerName").value.trim() || user.email.split("@")[0];
+    const bpmValue = Number(document.getElementById("beatBpm").value);
+    const priceValue = Number(document.getElementById("beatPrice").value);
+    if (!title || !Number.isInteger(bpmValue) || bpmValue < 1 || bpmValue > 300 || !Number.isInteger(priceValue) || priceValue < 0) {
+      throw new Error("Check the title, BPM and price fields.");
+    }
+    uploadSay("Uploading full beat to private storage…");
+    fullPath = await uploadStorageFile("beat-files", user.id, fullFile);
+    let previewUrl = null, coverUrl = null;
+    if (previewFile) {
+      uploadSay("Uploading preview audio…");
+      previewUrl = await uploadStorageFile("beat-previews", user.id, previewFile);
+    }
+    if (coverFile) {
+      uploadSay("Uploading cover image…");
+      coverUrl = await uploadStorageFile("beat-previews", user.id, coverFile);
+    }
+    uploadSay("Saving listing…");
+    const row = {
+      seller_id: user.id,
+      title,
+      artist_name: artistName,
+      bpm: bpmValue,
+      musical_key: document.getElementById("beatKey").value || null,
+      price_inr: priceValue,
+      audio_url: fullPath,
+      preview_url: previewUrl,
+      cover_url: coverUrl,
+      status: "published"
+    };
+    const { error: insertError } = await client.from("beats").insert(row);
+    if (insertError) throw insertError;
+    uploadForm.reset();
+    document.getElementById("beatPrice").value = "499";
+    uploadSay("Beat published successfully! Refreshing the catalogue…", "success");
+    await loadPublishedBeats();
+  } catch (error) {
+    uploadSay("Upload failed: " + (error.message || "Please try again."), "error");
+  } finally {
+    uploadButton.disabled = false;
+    uploadButton.textContent = "Upload and publish beat";
+  }
+});
+
+function filterBeats() {
+  const term = search.value.trim().toLowerCase();
+  const cards = [...list.querySelectorAll(".beat-card")];
+  cards.forEach(card => {
+    const text = [card.dataset.name,card.dataset.producer,card.dataset.genre,card.dataset.key,card.dataset.bpm].join(" ").toLowerCase();
+    const range = bpm.value ? bpm.value.split("-").map(Number) : null;
+    const tempo = Number(card.dataset.bpm);
+    const match = text.includes(term) &&
+      (!genre.value || card.dataset.genre === genre.value) &&
+      (!key.value || card.dataset.key === key.value) &&
+      (!range || (tempo >= range[0] && tempo <= range[1]));
+    card.style.display = match ? "" : "none";
+  });
+  const visible = cards.filter(card => card.style.display !== "none");
+  count.textContent = "Showing " + visible.length + " beat" + (visible.length === 1 ? "" : "s");
+  empty.style.display = visible.length ? "none" : "block";
+  cards.sort((a,b) => {
+    if (sort.value === "low") return +a.dataset.price - +b.dataset.price;
+    if (sort.value === "high") return +b.dataset.price - +a.dataset.price;
+    if (sort.value === "bpm") return +a.dataset.bpm - +b.dataset.bpm;
+    return +a.dataset.order - +b.dataset.order;
+  }).forEach(card => list.appendChild(card));
+}
+[search,genre,key,bpm,sort].forEach(control => control.addEventListener("input",filterBeats));
+document.getElementById("reset").addEventListener("click",() => {
+  search.value="";genre.value="";key.value="";bpm.value="";sort.value="featured";filterBeats();
+});
+filterBeats();
+loadPublishedBeats();
+</script>
+</body>
+</html>
